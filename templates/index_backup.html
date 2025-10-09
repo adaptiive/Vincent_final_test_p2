@@ -299,10 +299,6 @@
             .diagnostics-grid {
                 grid-template-columns: 1fr;
             }
-
-            .speed-display {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -321,7 +317,7 @@
                 <div class="role-desc">Network management</div>
             </div>
             <div class="role-card" data-role="isp_support">
-                <div class="role-title">📞 ISP Support</div>
+                <div class="role-title">� ISP Support</div>
                 <div class="role-desc">Customer support tools</div>
             </div>
         </div>
@@ -687,6 +683,201 @@
                 })
                 .catch(error => console.error('Error loading previous results:', error));
         });
+    </script>
+                        }
+                        if (data.ping > 0) {
+                            document.getElementById('ping').textContent = data.ping;
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking results:', error);
+                    clearInterval(pollInterval);
+                    resetButton();
+                });
+        }
+
+        function updateResults(data) {
+            document.getElementById('download').textContent = data.download || '--';
+            document.getElementById('upload').textContent = data.upload || '--';
+            document.getElementById('ping').textContent = data.ping || '--';
+            document.getElementById('timestamp').textContent = 
+                data.timestamp ? `Last test: ${data.timestamp}` : '';
+            document.getElementById('status').textContent = 'Test completed!';
+        }
+
+        function resetButton() {
+            const button = document.getElementById('startTest');
+            button.disabled = false;
+            button.textContent = 'Start Speed Test';
+            isTestRunning = false;
+            
+            setTimeout(() => {
+                document.getElementById('status').textContent = '';
+            }, 3000);
+        }
+
+        // Load previous results on page load
+        window.onload = function() {
+            fetch('/results')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.timestamp && !data.testing) {
+                        updateResults(data);
+                    }
+                })
+                .catch(error => console.error('Error loading previous results:', error));
+        };
+    </script>
+</body>
+</html>
+    </div>
+
+    <script>
+        function showLoading(buttonId) {
+            const btn = document.getElementById(buttonId);
+            btn.textContent = 'Testing...';
+            btn.disabled = true;
+        }
+
+        function hideLoading(buttonId, originalText) {
+            const btn = document.getElementById(buttonId);
+            btn.textContent = originalText;
+            btn.disabled = false;
+        }
+
+        function testConnectivity() {
+            showLoading('connectivity-btn');
+            const resultDiv = document.getElementById('connectivity-result');
+            
+            fetch('/test_connectivity')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'Connected') {
+                        resultDiv.innerHTML = `
+                            <div class="success">
+                                <strong>✅ Connected!</strong><br>
+                                Status Code: ${data.status_code}<br>
+                                Response Time: ${data.response_time}ms
+                            </div>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = `
+                            <div class="error">
+                                <strong>❌ Disconnected</strong><br>
+                                Error: ${data.error}
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<div class="error">Error: ${error}</div>`;
+                })
+                .finally(() => {
+                    hideLoading('connectivity-btn', 'Test Connection');
+                });
+        }
+
+        function getNetworkInfo() {
+            showLoading('network-btn');
+            const resultDiv = document.getElementById('network-result');
+            
+            fetch('/get_network_info')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        resultDiv.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                    } else {
+                        let wifiInfo = '';
+                        if (data.wifi_interfaces && data.wifi_interfaces.length > 0) {
+                            wifiInfo = '<br><strong>WiFi Interfaces:</strong><br>';
+                            data.wifi_interfaces.forEach(iface => {
+                                wifiInfo += `${iface.name}: ${iface.ip}<br>`;
+                            });
+                        }
+                        
+                        resultDiv.innerHTML = `
+                            <div class="success">
+                                <strong>🏠 Hostname:</strong> ${data.hostname}<br>
+                                <strong>🔗 Local IP:</strong> ${data.local_ip}
+                                ${wifiInfo}
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<div class="error">Error: ${error}</div>`;
+                })
+                .finally(() => {
+                    hideLoading('network-btn', 'Get Network Info');
+                });
+        }
+
+        function pingTest() {
+            showLoading('ping-btn');
+            const resultDiv = document.getElementById('ping-result');
+            const host = document.getElementById('ping-host').value || '8.8.8.8';
+            const count = document.getElementById('ping-count').value || 4;
+            
+            fetch(`/ping_test?host=${host}&count=${count}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'Success') {
+                        resultDiv.innerHTML = `
+                            <div class="success">
+                                <strong>✅ Ping to ${data.host} successful!</strong><br>
+                                <pre>${data.output}</pre>
+                            </div>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = `
+                            <div class="error">
+                                <strong>❌ Ping failed</strong><br>
+                                ${data.error || 'Unknown error'}
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<div class="error">Error: ${error}</div>`;
+                })
+                .finally(() => {
+                    hideLoading('ping-btn', 'Run Ping Test');
+                });
+        }
+
+        function speedTest() {
+            showLoading('speed-btn');
+            const resultDiv = document.getElementById('speed-result');
+            
+            fetch('/speed_test')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'Success') {
+                        resultDiv.innerHTML = `
+                            <div class="success">
+                                <strong>⚡ Speed Test Results</strong><br>
+                                Download Time: ${data.download_time}s<br>
+                                File Size: ${data.file_size} bytes<br>
+                                Speed: ${data.speed_kbps} kbps
+                            </div>
+                        `;
+                    } else {
+                        resultDiv.innerHTML = `
+                            <div class="error">
+                                <strong>❌ Speed test failed</strong><br>
+                                ${data.error}
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    resultDiv.innerHTML = `<div class="error">Error: ${error}</div>`;
+                })
+                .finally(() => {
+                    hideLoading('speed-btn', 'Test Speed');
+                });
+        }
     </script>
 </body>
 </html>
