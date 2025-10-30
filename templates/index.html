@@ -62,247 +62,66 @@
             box-shadow: 0 0 20px rgba(255, 107, 107, 0.4);
         }
 
-        .role-title {
-            font-weight: bold;
-            font-size: 1.1em;
-            margin-bottom: 5px;
-        }
+        .role-title { font-weight: bold; font-size: 1.1em; margin-bottom: 5px; }
+        .role-desc { font-size: 0.9em; opacity: 0.8; }
 
-        .role-desc {
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
+        .main-container { display: flex; justify-content: center; align-items: flex-start; padding: 20px; gap: 20px; flex-wrap: wrap; }
 
-        .main-container {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+        .container { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 40px; text-align: center; box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); border: 1px solid rgba(255, 255, 255, 0.18); max-width: 500px; width: 100%; }
 
-        .container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            max-width: 500px;
-            width: 100%;
-        }
+        h1 { margin-bottom: 30px; font-size: 2em; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
 
-        h1 {
-            margin-bottom: 30px;
-            font-size: 2em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
+        .advanced-panel { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 30px; box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37); border: 1px solid rgba(255, 255, 255, 0.18); max-width: 400px; width: 100%; }
 
-        .advanced-panel {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            max-width: 400px;
-            width: 100%;
-        }
+        .panel-title { font-size: 1.5em; margin-bottom: 20px; text-align: center; }
 
-        .panel-title {
-            font-size: 1.5em;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+        .feature-button { background: linear-gradient(45deg, #4facfe, #00f2fe); border: none; color: white; font-size: 1em; font-weight: bold; padding: 12px 25px; border-radius: 25px; cursor: pointer; transition: all 0.3s ease; margin: 5px; width: 100%; }
+        .feature-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4); }
 
-        .feature-button {
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-            border: none;
-            color: white;
-            font-size: 1em;
-            font-weight: bold;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 5px;
-            width: 100%;
-        }
+        /* Login card styles */
+        .login-card { display:flex; justify-content:space-between; align-items:center; gap:12px; max-width:900px; margin: 0 auto; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); }
+        .login-left { display:flex; gap:8px; align-items:center; flex:1; }
+        .login-right { display:flex; gap:8px; align-items:center; }
+        .login-input { padding:8px 10px; border-radius:8px; border: none; min-width:160px; }
+        .logged-badge { padding:6px 10px; background: rgba(255,255,255,0.06); border-radius:8px; font-size:0.95em; opacity:0.95 }
+        .role-locked { display:inline-block; margin-left:8px; padding:4px 8px; background:#333; border-radius:6px; font-size:0.8em; color:#ffd; }
+        .login-error { color: #ffd2d2; background: rgba(255,0,0,0.06); padding:8px; border-radius:6px; margin-top:6px; }
 
-        .feature-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
-        }
+        .diagnostics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .diag-item { background: rgba(255, 255, 255, 0.2); padding: 15px; border-radius: 10px; text-align: center; }
+        .diag-value { font-size: 1.5em; font-weight: bold; margin-bottom: 5px; }
+        .diag-label { font-size: 0.8em; opacity: 0.8; }
 
-        .diagnostics-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
+        .history-table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        .history-table th, .history-table td { padding: 8px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.2); font-size: 0.9em; }
+        .history-table th { background: rgba(255, 255, 255, 0.2); font-weight: bold; }
 
-        .diag-item {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
+        .report-section { background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px; margin-top: 20px; }
+        .report-id { font-family: monospace; background: rgba(0, 0, 0, 0.3); padding: 5px 10px; border-radius: 5px; margin: 10px 0; }
 
-        .diag-value {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+        .hidden { display: none; }
 
-        .diag-label {
-            font-size: 0.8em;
-            opacity: 0.8;
-        }
+        .speed-display { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin: 30px 0; }
+        .speed-item { background: rgba(255, 255, 255, 0.2); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .speed-value { font-size: 2em; font-weight: bold; margin-bottom: 5px; }
+        .speed-label { font-size: 0.9em; opacity: 0.8; }
 
-        .history-table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-        }
+        .test-button { background: linear-gradient(45deg, #ff6b6b, #ee5a24); border: none; color: white; font-size: 1.2em; font-weight: bold; padding: 15px 40px; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4); }
+        .test-button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(238, 90, 36, 0.6); }
+        .test-button:disabled { background: #666; cursor: not-allowed; transform: none; box-shadow: none; }
 
-        .history-table th,
-        .history-table td {
-            padding: 8px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 0.9em;
-        }
-
-        .history-table th {
-            background: rgba(255, 255, 255, 0.2);
-            font-weight: bold;
-        }
-
-        .report-section {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-        }
-
-        .report-id {
-            font-family: monospace;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 5px 10px;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .speed-display {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .speed-item {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .speed-value {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .speed-label {
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-
-        .test-button {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            border: none;
-            color: white;
-            font-size: 1.2em;
-            font-weight: bold;
-            padding: 15px 40px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(238, 90, 36, 0.4);
-        }
-
-        .test-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(238, 90, 36, 0.6);
-        }
-
-        .test-button:disabled {
-            background: #666;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .status {
-            margin: 20px 0;
-            font-size: 1.1em;
-            min-height: 25px;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .timestamp {
-            margin-top: 20px;
-            font-size: 0.9em;
-            opacity: 0.7;
-        }
+        .status { margin: 20px 0; font-size: 1.1em; min-height: 25px; }
+        .loading { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; margin-right: 10px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .timestamp { margin-top: 20px; font-size: 0.9em; opacity: 0.7; }
 
         @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .role-selection {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .role-card {
-                min-width: 250px;
-            }
-            
-            .container, .advanced-panel {
-                margin: 10px;
-                padding: 25px 20px;
-            }
-            
-            .diagnostics-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .speed-display {
-                grid-template-columns: 1fr;
-            }
+            .main-container { flex-direction: column; align-items: center; }
+            .role-selection { flex-direction: column; align-items: center; }
+            .role-card { min-width: 250px; }
+            .container, .advanced-panel { margin: 10px; padding: 25px 20px; }
+            .diagnostics-grid { grid-template-columns: 1fr; }
+            .speed-display { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -311,6 +130,27 @@
         <h1>📡 Professional WiFi Speed Test</h1>
         <p>Network Performance Analysis & Diagnostics</p>
         
+        <!-- Login / Role selection -->
+        <div id="loginBar" style="margin-top:12px;">
+            <div class="login-card">
+                <div class="login-left">
+                    <select id="loginRoleSelect" class="login-input">
+                        <option value="home_user">Home User (Guest)</option>
+                        <option value="it_admin">IT Administrator</option>
+                        <option value="isp_support">ISP Support</option>
+                    </select>
+                    <input id="loginUsername" class="login-input" placeholder="Username (if applicable)" />
+                    <input id="loginPassword" class="login-input" type="password" placeholder="Password (if required)" />
+                </div>
+                <div class="login-right">
+                    <button class="feature-button" id="loginBtn">Login</button>
+                    <button class="feature-button hidden" id="logoutBtn">Logout</button>
+                    <div id="loggedInInfo" class="logged-badge" aria-live="polite"></div>
+                </div>
+                <div style="width:100%"><div id="loginError" class="login-error hidden"></div></div>
+            </div>
+        </div>
+
         <div class="role-selection" id="roleSelection">
             <div class="role-card" data-role="home_user">
                 <div class="role-title">🏠 Home User</div>
@@ -363,6 +203,7 @@
             <div id="itAdminFeatures" class="hidden">
                 <button class="feature-button" onclick="loadHistory()">📊 View Test History</button>
                 <button class="feature-button" onclick="loadDiagnostics()">🔍 Network Diagnostics</button>
+                <button class="feature-button" onclick="loadReports()">📁 View ISP Reports</button>
                 
                 <div id="diagnosticsData" class="hidden">
                     <div class="diagnostics-grid">
@@ -398,6 +239,16 @@
                         <tbody id="historyTableBody">
                         </tbody>
                     </table>
+                </div>
+                <!-- Reports panel for IT Admin -->
+                <div id="reportsData" class="hidden" style="margin-top:16px;text-align:left;">
+                    <h3>ISP Shared Reports</h3>
+                    <div id="reportsList" style="max-height:240px;overflow:auto;padding:8px;background:rgba(255,255,255,0.03);border-radius:8px;">
+                        <!-- list populated by JS -->
+                    </div>
+                    <div id="reportPreview" style="margin-top:12px;display:none;padding:10px;background:#fff;color:#000;border-radius:8px;">
+                        <!-- preview inserted here -->
+                    </div>
                 </div>
             </div>
 
@@ -456,9 +307,10 @@
     </div>
 
     <script>
-        let isTestRunning = false;
-        let pollInterval;
-        let currentRole = null;
+    let isTestRunning = false;
+    let pollInterval;
+    let currentRole = null;
+    let isAuthenticated = false;
 
         // Role management
         function selectRole(role) {
@@ -480,6 +332,21 @@
             .then(data => {
                 if (data.status === 'success') {
                     setupDashboard(role);
+                } else {
+                    // show backend message if role change was denied (e.g., after login)
+                    const loginErr = document.getElementById('loginError');
+                    if (loginErr) {
+                        loginErr.textContent = data.message || 'Cannot change role after login';
+                        loginErr.classList.remove('hidden');
+                    }
+                    // revert UI selection to the current session role (if any)
+                    fetch('/get-role').then(r => r.json()).then(d => {
+                        const current = d.role || 'home_user';
+                        document.querySelectorAll('.role-card').forEach(card => card.classList.remove('selected'));
+                        const el = document.querySelector(`[data-role="${current}"]`);
+                        if (el) el.classList.add('selected');
+                        setupDashboard(current);
+                    }).catch(()=>{});
                 }
             });
         }
@@ -653,39 +520,310 @@
         }
 
         function generateReport() {
-            fetch('/generate-report')
+            // Allow agent to optionally enter a customer username for context
+            const customer = prompt('Enter customer username for report (optional):');
+            const url = customer ? `/generate-report?customer=${encodeURIComponent(customer)}` : '/generate-report';
+            fetch(url)
                 .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        const loginErr = document.getElementById('loginError');
+                        if (loginErr) { loginErr.textContent = data.error; loginErr.classList.remove('hidden'); }
+                        return;
+                    }
+
+                    document.getElementById('reportId').textContent = `Report ID: ${data.report_id}`;
+                    document.getElementById('reportSummary').textContent = data.summary;
+                    // show HTML snippet if provided
+                    if (data.report_html) {
+                        const htmlContainer = document.getElementById('reportData');
+                        htmlContainer.classList.remove('hidden');
+                        // insert HTML snippet into a subcontainer
+                        let snippet = document.getElementById('reportSnippet');
+                        if (!snippet) {
+                            snippet = document.createElement('div');
+                            snippet.id = 'reportSnippet';
+                            snippet.style.background = '#fff';
+                            snippet.style.color = '#000';
+                            snippet.style.padding = '12px';
+                            snippet.style.borderRadius = '8px';
+                            snippet.style.marginTop = '8px';
+                            document.getElementById('reportData').appendChild(snippet);
+                        }
+                        snippet.innerHTML = data.report_html;
+
+                        // add download JSON button
+                        let dl = document.getElementById('downloadReportBtn');
+                        if (!dl) {
+                            dl = document.createElement('button');
+                            dl.id = 'downloadReportBtn';
+                            dl.className = 'feature-button';
+                            dl.textContent = 'Download JSON Report';
+                            dl.style.marginTop = '10px';
+                            dl.onclick = function() {
+                                const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = `${data.report_id || 'report'}.json`;
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                                URL.revokeObjectURL(url);
+                            };
+                            document.getElementById('reportData').appendChild(dl);
+                        }
+                    } else {
+                        document.getElementById('reportData').classList.remove('hidden');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error generating report:', error);
+                    const loginErr = document.getElementById('loginError');
+                    if (loginErr) { loginErr.textContent = 'Error generating report: ' + error; loginErr.classList.remove('hidden'); }
+                });
+        }
+
+        // IT Admin: load stored reports created by ISP agents
+        function loadReports() {
+            fetch('/reports')
+                .then(r => r.json())
                 .then(data => {
                     if (data.error) {
                         alert(data.error);
                         return;
                     }
-                    
-                    document.getElementById('reportId').textContent = `Report ID: ${data.report_id}`;
-                    document.getElementById('reportSummary').textContent = data.summary;
-                    document.getElementById('reportData').classList.remove('hidden');
+
+                    const list = document.getElementById('reportsList');
+                    list.innerHTML = '';
+
+                    if (!data.reports || data.reports.length === 0) {
+                        list.textContent = 'No reports available.';
+                    } else {
+                        data.reports.forEach(r => {
+                            const item = document.createElement('div');
+                            item.style.display = 'flex';
+                            item.style.justifyContent = 'space-between';
+                            item.style.alignItems = 'center';
+                            item.style.padding = '6px';
+                            item.style.borderBottom = '1px dashed rgba(255,255,255,0.04)';
+
+                            const meta = document.createElement('div');
+                            meta.innerHTML = `<strong>${r.report_id}</strong><br><small>${r.generated_at} — by ${r.creator || 'unknown'} — customer: ${r.customer || 'N/A'}</small>`;
+                            item.appendChild(meta);
+
+                            const ctl = document.createElement('div');
+                            const view = document.createElement('button');
+                            view.className = 'feature-button';
+                            view.style.padding = '6px 10px';
+                            view.style.marginLeft = '8px';
+                            view.textContent = 'View';
+                            view.onclick = function() { viewReport(r.report_id); };
+                            ctl.appendChild(view);
+
+                            const dl = document.createElement('button');
+                            dl.className = 'feature-button';
+                            dl.style.padding = '6px 10px';
+                            dl.style.marginLeft = '8px';
+                            dl.textContent = 'Download';
+                            dl.onclick = function() {
+                                fetch(`/reports/${encodeURIComponent(r.report_id)}`)
+                                    .then(res => res.json())
+                                    .then(payload => {
+                                        const blob = new Blob([JSON.stringify(payload, null, 2)], {type: 'application/json'});
+                                        const url = URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.href = url;
+                                        a.download = `${r.report_id || 'report'}.json`;
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        a.remove();
+                                        URL.revokeObjectURL(url);
+                                    })
+                                    .catch(err => alert('Failed to download report: ' + err));
+                            };
+                            ctl.appendChild(dl);
+
+                            item.appendChild(ctl);
+                            list.appendChild(item);
+                        });
+                    }
+
+                    document.getElementById('reportsData').classList.remove('hidden');
+                    document.getElementById('reportPreview').style.display = 'none';
                 })
-                .catch(error => console.error('Error generating report:', error));
+                .catch(err => console.error('Error loading reports:', err));
         }
 
-        // Role selection event listeners
+        function viewReport(reportId) {
+            fetch(`/reports/${encodeURIComponent(reportId)}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error || 'Failed to load report');
+                        return;
+                    }
+                    const preview = document.getElementById('reportPreview');
+                    // if report provides HTML, render it; otherwise show JSON
+                    if (data.report_html) {
+                        preview.innerHTML = data.report_html;
+                    } else {
+                        preview.textContent = JSON.stringify(data, null, 2);
+                    }
+                    preview.style.display = 'block';
+
+                    // add download button into preview if not present
+                    if (!document.getElementById('downloadReportPreviewBtn')) {
+                        const btn = document.createElement('button');
+                        btn.id = 'downloadReportPreviewBtn';
+                        btn.className = 'feature-button';
+                        btn.textContent = 'Download Report JSON';
+                        btn.style.marginTop = '8px';
+                        btn.onclick = function() {
+                            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url; a.download = `${data.report_id || 'report'}.json`;
+                            document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+                        };
+                        preview.appendChild(btn);
+                    }
+                })
+                .catch(err => console.error('Error fetching report:', err));
+        }
+
+        // Role selection and login initialization
         document.addEventListener('DOMContentLoaded', function() {
+            // Hide role selection and main UI until authenticated
+            const roleSelectionEl = document.getElementById('roleSelection');
+            const mainContainerEl = document.querySelector('.main-container');
+            roleSelectionEl.classList.add('hidden');
+            mainContainerEl.classList.add('hidden');
+
+            // Role card click -> preselect in login UI
             document.querySelectorAll('.role-card').forEach(card => {
                 card.addEventListener('click', function() {
                     const role = this.getAttribute('data-role');
-                    selectRole(role);
+                    document.getElementById('loginRoleSelect').value = role;
+                    document.getElementById('loginUsername').value = '';
+                    document.getElementById('loginPassword').value = '';
+                    document.getElementById('loginPassword').style.display = role === 'home_user' ? 'none' : '';
+                    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
                 });
             });
 
-            // Load previous results on page load
-            fetch('/results')
-                .then(response => response.json())
+            // Check authentication status on load
+            fetch('/get-role')
+                .then(r => r.json())
                 .then(data => {
-                    if (data.timestamp && !data.testing) {
-                        updateResults(data);
+                    if (data.authenticated) {
+                        // authenticated: show main UI, but hide the pre-login role-selection
+                        roleSelectionEl.classList.add('hidden');
+                        mainContainerEl.classList.remove('hidden');
+                        document.getElementById('loginBtn').classList.add('hidden');
+                        document.getElementById('logoutBtn').classList.remove('hidden');
+                        document.getElementById('loggedInInfo').textContent = `${data.username || 'guest'} (${data.config ? data.config.name : data.role})`;
+                        currentRole = data.role || 'home_user';
+                        // disable role cards to prevent switching after login and mark selected
+                        document.getElementById('loginRoleSelect').disabled = true;
+                        document.querySelectorAll('.role-card').forEach(c => c.classList.add('disabled'));
+                        const selectedEl = document.querySelector(`[data-role="${currentRole}"]`);
+                        if (selectedEl) {
+                            document.querySelectorAll('.role-card').forEach(card => card.classList.remove('selected'));
+                            selectedEl.classList.add('selected');
+                        }
+                        setupDashboard(currentRole);
+                        // Load previous results
+                        fetch('/results')
+                            .then(response => response.json())
+                            .then(d => { if (d.timestamp && !d.testing) updateResults(d); })
+                            .catch(() => {});
+                    } else {
+                        // not authenticated: show role-selection so user can preselect role and keep features hidden
+                        roleSelectionEl.classList.remove('hidden');
+                        mainContainerEl.classList.add('hidden');
+                        document.getElementById('loginBtn').classList.remove('hidden');
+                        document.getElementById('logoutBtn').classList.add('hidden');
+                        document.getElementById('loggedInInfo').textContent = '';
                     }
                 })
-                .catch(error => console.error('Error loading previous results:', error));
+                .catch(() => {
+                    // On error, stay in login-only mode
+                    roleSelectionEl.classList.add('hidden');
+                    mainContainerEl.classList.add('hidden');
+                });
+
+            // Login button behavior
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                const role = document.getElementById('loginRoleSelect').value;
+                const username = document.getElementById('loginUsername').value.trim();
+                const password = document.getElementById('loginPassword').value;
+
+                const loginErrElm = document.getElementById('loginError');
+                if (loginErrElm) { loginErrElm.textContent = ''; loginErrElm.classList.add('hidden'); }
+
+                // Client-side validation: require username/password for admin/ISP
+                if (role !== 'home_user') {
+                    if (!username) {
+                        if (loginErrElm) { loginErrElm.textContent = 'Please enter a username for this role'; loginErrElm.classList.remove('hidden'); }
+                        return;
+                    }
+                    if (!password) {
+                        if (loginErrElm) { loginErrElm.textContent = 'Please enter a password for this role'; loginErrElm.classList.remove('hidden'); }
+                        return;
+                    }
+                }
+
+                fetch('/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({role: role, username: username, password: password})
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        currentRole = data.role;
+                        isAuthenticated = true;
+                        // disable role selection controls to avoid confusion
+                        document.getElementById('loginRoleSelect').disabled = true;
+                        document.querySelectorAll('.role-card').forEach(c => c.classList.add('disabled'));
+                        const logged = document.getElementById('loggedInInfo'); if (logged) logged.innerHTML = `<strong>${data.username || 'guest'}</strong> <span class="role-locked">${data.role}</span>`;
+                        document.getElementById('loginBtn').classList.add('hidden');
+                        document.getElementById('logoutBtn').classList.remove('hidden');
+                        // reveal main UI and hide the pre-login role-picker to avoid switching
+                        roleSelectionEl.classList.add('hidden');
+                        mainContainerEl.classList.remove('hidden');
+                        setupDashboard(currentRole);
+                    } else {
+                        if (loginErrElm) { loginErrElm.textContent = data.message || 'Login failed'; loginErrElm.classList.remove('hidden'); }
+                    }
+                })
+                .catch(err => {
+                    const e = document.getElementById('loginError');
+                    if (e) { e.textContent = 'Login error: ' + err; e.classList.remove('hidden'); }
+                    else alert('Login error: ' + err);
+                });
+            });
+
+            // Logout behavior
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                fetch('/logout', {method: 'POST'})
+                .then(r => r.json())
+                .then(() => {
+                    currentRole = null;
+                    isAuthenticated = false;
+                    document.getElementById('loginRoleSelect').disabled = false;
+                    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('disabled'));
+                    document.getElementById('loggedInInfo').textContent = '';
+                    document.getElementById('loginBtn').classList.remove('hidden');
+                    document.getElementById('logoutBtn').classList.add('hidden');
+                    // hide UI again
+                    roleSelectionEl.classList.add('hidden');
+                    mainContainerEl.classList.add('hidden');
+                    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('selected'));
+                });
+            });
         });
     </script>
 </body>
