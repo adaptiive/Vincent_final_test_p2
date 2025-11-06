@@ -284,6 +284,57 @@ def logout():
     session.clear()
     return jsonify({'status': 'success'})
 
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    """Sign up endpoint for Home Users to create accounts"""
+    data = request.json or {}
+    username = (data.get('username') or '').strip()
+    password = data.get('password', '').strip()
+    display_name = (data.get('display_name') or username).strip()
+
+    # Validate username
+    if not username:
+        return jsonify({'status': 'error', 'message': 'Username is required'}), 400
+    
+    if len(username) < 3:
+        return jsonify({'status': 'error', 'message': 'Username must be at least 3 characters'}), 400
+
+    # Check if username already exists
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT id FROM users WHERE LOWER(username) = LOWER(?)', (username,))
+    existing = cur.fetchone()
+    
+    if existing:
+        conn.close()
+        return jsonify({'status': 'error', 'message': 'Username already taken'}), 400
+
+    # Hash password if provided, otherwise allow passwordless guest account
+    hashed_password = generate_password_hash(password) if password else None
+
+    # Insert new home user
+    try:
+        cur.execute('INSERT INTO users (username, password, role, display_name) VALUES (?, ?, ?, ?)',
+                    (username, hashed_password, 'home_user', display_name))
+        conn.commit()
+        conn.close()
+
+        # Auto-login after successful signup
+        session['authenticated'] = True
+        session['user_role'] = 'home_user'
+        session['username'] = username
+
+        return jsonify({
+            'status': 'success', 
+            'message': 'Account created successfully',
+            'role': 'home_user',
+            'username': username
+        })
+    except Exception as e:
+        conn.close()
+        return jsonify({'status': 'error', 'message': f'Registration failed: {str(e)}'}), 500
+
 @app.route('/start-test')
 def start_test():
     """Start speed test"""

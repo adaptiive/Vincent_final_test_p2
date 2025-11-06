@@ -316,7 +316,87 @@
             font-size: 0.85rem;
         }
 
-        .hidden { display: none; }
+        .hidden { display: none !important; }
+
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal.hidden {
+            display: none !important;
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95), rgba(118, 75, 162, 0.95));
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 0;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .close-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
 
         .speed-display { 
             display: grid; 
@@ -456,9 +536,31 @@
                 <div class="login-right">
                     <button class="feature-button" id="loginBtn">Login</button>
                     <button class="feature-button hidden" id="logoutBtn">Logout</button>
+                    <button class="feature-button" id="signupBtn" style="background: linear-gradient(135deg, #7ee787, #4facfe);">Sign Up</button>
                     <div id="loggedInInfo" class="logged-badge" aria-live="polite"></div>
                 </div>
                 <div style="width:100%"><div id="loginError" class="login-error hidden"></div></div>
+            </div>
+        </div>
+        
+        <!-- Sign Up Modal -->
+        <div id="signupModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Create Home User Account</h2>
+                    <button class="close-btn" onclick="closeSignupModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p style="opacity: 0.9; margin-bottom: 16px; font-size: 0.9rem;">Create an account to save your speed test history and track your network performance over time.</p>
+                    <input id="signupUsername" class="login-input" style="width: 100%; margin-bottom: 12px;" placeholder="Username (required, min 3 characters)" />
+                    <input id="signupDisplayName" class="login-input" style="width: 100%; margin-bottom: 12px;" placeholder="Display Name (optional)" />
+                    <input id="signupPassword" class="login-input" type="password" style="width: 100%; margin-bottom: 12px;" placeholder="Password (optional, for secure login)" />
+                    <div id="signupError" class="login-error hidden"></div>
+                    <div style="display: flex; gap: 10px; margin-top: 16px;">
+                        <button class="feature-button" onclick="submitSignup()" style="flex: 1;">Create Account</button>
+                        <button class="feature-button" onclick="closeSignupModal()" style="flex: 0 0 auto; background: rgba(255,255,255,0.1);">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1003,6 +1105,90 @@
                 .catch(err => console.error('Error fetching report:', err));
         }
 
+        // Sign up functions
+        function openSignupModal() {
+            // Only allow signup for home_user role
+            const role = document.getElementById('loginRoleSelect').value;
+            if (role !== 'home_user') {
+                const loginErr = document.getElementById('loginError');
+                if (loginErr) {
+                    loginErr.textContent = 'Sign up is only available for Home Users. IT Admin and ISP accounts are created by administrators.';
+                    loginErr.classList.remove('hidden');
+                }
+                return;
+            }
+            
+            document.getElementById('signupModal').classList.remove('hidden');
+            document.getElementById('signupUsername').value = '';
+            document.getElementById('signupDisplayName').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupError').classList.add('hidden');
+        }
+        
+        function closeSignupModal() {
+            document.getElementById('signupModal').classList.add('hidden');
+        }
+        
+        function submitSignup() {
+            const username = document.getElementById('signupUsername').value.trim();
+            const displayName = document.getElementById('signupDisplayName').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const signupErr = document.getElementById('signupError');
+            
+            // Clear previous errors
+            signupErr.classList.add('hidden');
+            
+            // Validate
+            if (!username) {
+                signupErr.textContent = 'Username is required';
+                signupErr.classList.remove('hidden');
+                return;
+            }
+            
+            if (username.length < 3) {
+                signupErr.textContent = 'Username must be at least 3 characters';
+                signupErr.classList.remove('hidden');
+                return;
+            }
+            
+            // Submit signup
+            fetch('/signup', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: username,
+                    display_name: displayName || username,
+                    password: password
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Close modal and update UI as logged in
+                    closeSignupModal();
+                    currentRole = 'home_user';
+                    isAuthenticated = true;
+                    document.getElementById('loginRoleSelect').disabled = true;
+                    document.querySelectorAll('.role-card').forEach(c => c.classList.add('disabled'));
+                    const logged = document.getElementById('loggedInInfo');
+                    if (logged) logged.innerHTML = `<strong>${data.username}</strong> <span class="role-locked">home_user</span>`;
+                    document.getElementById('loginBtn').classList.add('hidden');
+                    document.getElementById('signupBtn').classList.add('hidden');
+                    document.getElementById('logoutBtn').classList.remove('hidden');
+                    document.getElementById('roleSelection').classList.add('hidden');
+                    document.querySelector('.main-container').classList.remove('hidden');
+                    setupDashboard('home_user');
+                } else {
+                    signupErr.textContent = data.message || 'Sign up failed';
+                    signupErr.classList.remove('hidden');
+                }
+            })
+            .catch(err => {
+                signupErr.textContent = 'Sign up error: ' + err;
+                signupErr.classList.remove('hidden');
+            });
+        }
+
         // Role selection and login initialization
         document.addEventListener('DOMContentLoaded', function() {
             // Hide role selection and main UI until authenticated
@@ -1033,6 +1219,7 @@
                         roleSelectionEl.classList.add('hidden');
                         mainContainerEl.classList.remove('hidden');
                         document.getElementById('loginBtn').classList.add('hidden');
+                        document.getElementById('signupBtn').classList.add('hidden');
                         document.getElementById('logoutBtn').classList.remove('hidden');
                         document.getElementById('loggedInInfo').textContent = `${data.username || 'guest'} (${data.config ? data.config.name : data.role})`;
                         currentRole = data.role || 'home_user';
@@ -1064,6 +1251,11 @@
                     roleSelectionEl.classList.add('hidden');
                     mainContainerEl.classList.add('hidden');
                 });
+
+            // Sign up button behavior
+            document.getElementById('signupBtn').addEventListener('click', function() {
+                openSignupModal();
+            });
 
             // Login button behavior
             document.getElementById('loginBtn').addEventListener('click', function() {
@@ -1101,6 +1293,7 @@
                         document.querySelectorAll('.role-card').forEach(c => c.classList.add('disabled'));
                         const logged = document.getElementById('loggedInInfo'); if (logged) logged.innerHTML = `<strong>${data.username || 'guest'}</strong> <span class="role-locked">${data.role}</span>`;
                         document.getElementById('loginBtn').classList.add('hidden');
+                        document.getElementById('signupBtn').classList.add('hidden');
                         document.getElementById('logoutBtn').classList.remove('hidden');
                         // reveal main UI and hide the pre-login role-picker to avoid switching
                         roleSelectionEl.classList.add('hidden');
@@ -1128,6 +1321,7 @@
                     document.querySelectorAll('.role-card').forEach(c => c.classList.remove('disabled'));
                     document.getElementById('loggedInInfo').textContent = '';
                     document.getElementById('loginBtn').classList.remove('hidden');
+                    document.getElementById('signupBtn').classList.remove('hidden');
                     document.getElementById('logoutBtn').classList.add('hidden');
                     // hide UI again
                     roleSelectionEl.classList.add('hidden');
