@@ -651,12 +651,12 @@
             <div class="login-card">
                 <div class="login-left">
                     <select id="loginRoleSelect" class="login-input">
-                        <option value="home_user">Home User (Guest)</option>
+                        <option value="home_user">Home User (Sign Up Required)</option>
                         <option value="it_admin">IT Administrator</option>
                         <option value="isp_support">ISP Support</option>
                     </select>
-                    <input id="loginUsername" class="login-input" placeholder="Username (leave blank for guest)" />
-                    <input id="loginPassword" class="login-input" type="password" placeholder="Password (required if you have an account)" />
+                    <input id="loginUsername" class="login-input" placeholder="Username" />
+                    <input id="loginPassword" class="login-input" type="password" placeholder="Password" />
                 </div>
                 <div class="login-right">
                     <button class="feature-button" id="loginBtn">Login</button>
@@ -677,10 +677,10 @@
                     <button class="close-btn" onclick="closeSignupModal()">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <p style="opacity: 0.9; margin-bottom: 14px; font-size: 0.85rem;">Create an account to save your speed test history and track your network performance over time.</p>
+                    <p style="opacity: 0.9; margin-bottom: 14px; font-size: 0.85rem;">Create an account to use the WiFi Speed Tester. All fields are required.</p>
                     <input id="signupUsername" class="login-input" style="width: 100%; margin-bottom: 10px;" placeholder="Username (min 3 characters)" />
                     <input id="signupDisplayName" class="login-input" style="width: 100%; margin-bottom: 10px;" placeholder="Display Name (optional)" />
-                    <input id="signupPassword" class="login-input" type="password" style="width: 100%; margin-bottom: 10px;" placeholder="Password (optional)" />
+                    <input id="signupPassword" class="login-input" type="password" style="width: 100%; margin-bottom: 10px;" placeholder="Password (min 4 characters, required)" />
                     <input id="signupSecurityQuestion" class="login-input" style="width: 100%; margin-bottom: 10px;" placeholder="Security Question" />
                     <input id="signupSecurityAnswer" class="login-input" style="width: 100%; margin-bottom: 10px;" placeholder="Answer to question" />
                     <div id="signupError" class="login-error hidden"></div>
@@ -812,6 +812,7 @@
                     <table class="history-table">
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>Time</th>
                                 <th>Download</th>
                                 <th>Upload</th>
@@ -873,6 +874,7 @@
                     <table class="history-table">
                         <thead>
                             <tr>
+                                <th>Date</th>
                                 <th>Time</th>
                                 <th>Download</th>
                                 <th>Upload</th>
@@ -1221,12 +1223,14 @@
                     
                     data.history.slice(-10).forEach(test => {
                         const row = tbody.insertRow();
-                        row.insertCell(0).textContent = test.timestamp.split(' ')[1];
-                        row.insertCell(1).textContent = test.download + ' Mbps';
-                        row.insertCell(2).textContent = test.upload + ' Mbps';
-                        row.insertCell(3).textContent = test.ping + ' ms';
+                        const [date, time] = test.timestamp.split(' ');
+                        row.insertCell(0).textContent = date;
+                        row.insertCell(1).textContent = time;
+                        row.insertCell(2).textContent = test.download + ' Mbps';
+                        row.insertCell(3).textContent = test.upload + ' Mbps';
+                        row.insertCell(4).textContent = test.ping + ' ms';
                         if (currentRole === 'isp_support') {
-                            row.insertCell(4).textContent = test.server || 'Unknown';
+                            row.insertCell(5).textContent = test.server || 'Unknown';
                         }
                     });
                     
@@ -1481,6 +1485,19 @@
                 return;
             }
             
+            // Password is now required
+            if (!password) {
+                signupErr.textContent = 'Password is required';
+                signupErr.classList.remove('hidden');
+                return;
+            }
+            
+            if (password.length < 4) {
+                signupErr.textContent = 'Password must be at least 4 characters';
+                signupErr.classList.remove('hidden');
+                return;
+            }
+            
             if (!securityQuestion) {
                 signupErr.textContent = 'Security question is required for password recovery';
                 signupErr.classList.remove('hidden');
@@ -1616,16 +1633,22 @@
                 const loginErrElm = document.getElementById('loginError');
                 if (loginErrElm) { loginErrElm.textContent = ''; loginErrElm.classList.add('hidden'); }
 
-                // Client-side validation: require username/password for admin/ISP
-                if (role !== 'home_user') {
-                    if (!username) {
-                        if (loginErrElm) { loginErrElm.textContent = 'Please enter a username for this role'; loginErrElm.classList.remove('hidden'); }
-                        return;
+                // Client-side validation: require username/password for all roles (including home_user)
+                if (!username) {
+                    if (loginErrElm) { 
+                        if (role === 'home_user') {
+                            loginErrElm.textContent = 'Please sign up first. Home Users must create an account to continue.';
+                        } else {
+                            loginErrElm.textContent = 'Please enter a username for this role';
+                        }
+                        loginErrElm.classList.remove('hidden'); 
                     }
-                    if (!password) {
-                        if (loginErrElm) { loginErrElm.textContent = 'Please enter a password for this role'; loginErrElm.classList.remove('hidden'); }
-                        return;
-                    }
+                    return;
+                }
+                
+                if (!password) {
+                    if (loginErrElm) { loginErrElm.textContent = 'Please enter a password'; loginErrElm.classList.remove('hidden'); }
+                    return;
                 }
 
                 fetch('/login', {
@@ -1641,7 +1664,7 @@
                         // disable role selection controls to avoid confusion
                         document.getElementById('loginRoleSelect').disabled = true;
                         document.querySelectorAll('.role-card').forEach(c => c.classList.add('disabled'));
-                        const logged = document.getElementById('loggedInInfo'); if (logged) logged.innerHTML = `<strong>${data.username || 'guest'}</strong> <span class="role-locked">${data.role}</span>`;
+                        const logged = document.getElementById('loggedInInfo'); if (logged) logged.innerHTML = `<strong>${data.username}</strong> <span class="role-locked">${data.role}</span>`;
                         document.getElementById('loginBtn').classList.add('hidden');
                         document.getElementById('signupBtn').classList.add('hidden');
                         document.getElementById('logoutBtn').classList.remove('hidden');

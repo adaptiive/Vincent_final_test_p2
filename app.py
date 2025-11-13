@@ -258,14 +258,14 @@ def login():
     if role not in USER_ROLES:
         return jsonify({'status': 'error', 'message': 'Invalid role'}), 400
 
-    # Home users (customers) - check if they're logging in as registered user or guest
+    # Home users (customers) - must have registered account with username and password
     if role == 'home_user':
-        # If username is "guest" or empty, allow guest login without password
-        if username.lower() == 'guest' or not username:
-            session['authenticated'] = True
-            session['user_role'] = 'home_user'
-            session['username'] = 'guest'
-            return jsonify({'status': 'success', 'role': 'home_user', 'username': 'guest'})
+        # Home users must provide both username and password
+        if not username or username.lower() == 'guest':
+            return jsonify({'status': 'error', 'message': 'Please create an account to continue. Sign up is required for Home Users.'}), 401
+        
+        if not password:
+            return jsonify({'status': 'error', 'message': 'Password is required. Please sign up first.'}), 401
         
         # Check if username exists in database
         conn = get_db_connection()
@@ -275,20 +275,19 @@ def login():
         user = cur.fetchone()
         conn.close()
         
-        # If user exists but no password provided, reject login
-        if user and user['password']:
-            if not password:
-                return jsonify({'status': 'error', 'message': 'Password is required for this account'}), 401
-            
-            # Verify password
-            if not check_password_hash(user['password'], password):
-                return jsonify({'status': 'error', 'message': 'Invalid password'}), 401
+        # User must exist in database
+        if not user:
+            return jsonify({'status': 'error', 'message': 'User not found. Please sign up first.'}), 401
         
-        # If user doesn't exist in DB or has no password, allow guest login
+        # Verify password
+        if not check_password_hash(user['password'], password):
+            return jsonify({'status': 'error', 'message': 'Invalid username or password'}), 401
+        
+        # Login successful
         session['authenticated'] = True
         session['user_role'] = 'home_user'
-        session['username'] = username
-        return jsonify({'status': 'success', 'role': 'home_user', 'username': username})
+        session['username'] = user['username']
+        return jsonify({'status': 'success', 'role': 'home_user', 'username': user['username']})
 
     # For admin/isp require matching user from DB with valid password
     conn = get_db_connection()
@@ -326,7 +325,7 @@ def signup():
     """Sign up endpoint for Home Users to create accounts"""
     data = request.json or {}
     username = (data.get('username') or '').strip()
-    password = data.get('password', '').strip()
+    password = (data.get('password') or '').strip()
     display_name = (data.get('display_name') or username).strip()
     security_question = (data.get('security_question') or '').strip()
     security_answer = (data.get('security_answer') or '').strip()
@@ -337,6 +336,13 @@ def signup():
     
     if len(username) < 3:
         return jsonify({'status': 'error', 'message': 'Username must be at least 3 characters'}), 400
+    
+    # Validate password (now mandatory)
+    if not password:
+        return jsonify({'status': 'error', 'message': 'Password is required'}), 400
+    
+    if len(password) < 4:
+        return jsonify({'status': 'error', 'message': 'Password must be at least 4 characters'}), 400
     
     # Validate security question and answer (required for password reset)
     if not security_question:
@@ -355,8 +361,8 @@ def signup():
         conn.close()
         return jsonify({'status': 'error', 'message': 'Username already taken'}), 400
 
-    # Hash password if provided, otherwise allow passwordless guest account
-    hashed_password = generate_password_hash(password) if password else None
+    # Hash password (now always required)
+    hashed_password = generate_password_hash(password)
 
     # Insert new home user with security question and answer
     try:
