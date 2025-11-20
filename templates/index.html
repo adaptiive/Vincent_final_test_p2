@@ -772,6 +772,10 @@
                 Start Speed Test
             </button>
 
+            <button class="test-button reset-button hidden" id="resetTest" onclick="resetSpeedTest()" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                Reset Test
+            </button>
+
             <div class="status" id="status"></div>
             <div class="timestamp" id="timestamp"></div>
             
@@ -1208,13 +1212,44 @@
 
         function resetButton() {
             const button = document.getElementById('startTest');
+            const resetButton = document.getElementById('resetTest');
             button.disabled = false;
             button.textContent = 'Start Speed Test';
             isTestRunning = false;
             
+            // Show reset button after test completes
+            resetButton.classList.remove('hidden');
+            
             setTimeout(() => {
                 document.getElementById('status').textContent = '';
             }, 3000);
+        }
+
+        function resetSpeedTest() {
+            // Call the backend reset endpoint
+            fetch('/reset-test')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        // Clear the UI
+                        document.getElementById('download').textContent = '--';
+                        document.getElementById('upload').textContent = '--';
+                        document.getElementById('ping').textContent = '--';
+                        document.getElementById('timestamp').textContent = '';
+                        document.getElementById('status').textContent = '';
+                        
+                        // Hide reset button and show start button
+                        document.getElementById('resetTest').classList.add('hidden');
+                        document.getElementById('startTest').classList.remove('hidden');
+                        
+                        // Enable start button
+                        document.getElementById('startTest').disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error resetting test:', error);
+                    document.getElementById('status').textContent = 'Error resetting test';
+                });
         }
 
         // Advanced features

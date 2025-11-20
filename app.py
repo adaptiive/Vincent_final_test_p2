@@ -486,6 +486,20 @@ def get_results():
     
     return jsonify(result)
 
+@app.route('/reset-test')
+def reset_test():
+    """Reset speed test results to allow running a new test"""
+    global latest_results
+    latest_results = {
+        'download': 0,
+        'upload': 0,
+        'ping': 0,
+        'timestamp': None,
+        'testing': False,
+        'status': 'Ready'
+    }
+    return jsonify({'status': 'success', 'message': 'Test results cleared'})
+
 @app.route('/history')
 def get_history():
     """Get test history (IT Admin and ISP Support only)"""
