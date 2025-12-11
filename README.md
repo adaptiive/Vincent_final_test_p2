@@ -1,10 +1,7 @@
 ## Vincent Uy: here are the instructions for the final test repository
 
 
-Steps I Followed:
-1. Navigated to the folder where I wanted to clone the repo.
-2. Ran the `git clone` command with the repository URL.
-3. Verified the clone by checking the files and running `git status`.
+
 
 What I Learned:
 - I learned about creating a GitHub repository and set it up with a README, milestones, and issues. Adding files and linking them to issues helped me understand how version control organizes tasks. Cloning a public repo showed me how easy it is to work locally and sync changes back to GitHub. Overall, this class gave me hands-on experience with Git workflows and project management.
