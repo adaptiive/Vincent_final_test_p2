@@ -1,4 +1,4 @@
-Vincent Uy: here are the instructions for the final test repository
+## Vincent Uy: here are the instructions for the final test repository
 
 
 Steps I Followed:
@@ -7,8 +7,7 @@ Steps I Followed:
 3. Verified the clone by checking the files and running `git status`.
 
 What I Learned:
-- Cloning creates a local copy of a remote repository, allowing me to work offline and sync changes later.
-- It helped me understand how remote and local repositories interact in Git workflows.
+- Cloning creates a local copy of a remote repository, allowing me to work offline and sync changes later. - It helped me understand how remote and local repositories interact in Git workflows. 
 
 ---
 
