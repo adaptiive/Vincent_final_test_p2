@@ -7,7 +7,7 @@ Steps I Followed:
 3. Verified the clone by checking the files and running `git status`.
 
 What I Learned:
-- Cloning creates a local copy of a remote repository, allowing me to work offline and sync changes later. - It helped me understand how remote and local repositories interact in Git workflows. 
+- I learned about creating a GitHub repository and set it up with a README, milestones, and issues. Adding files and linking them to issues helped me understand how version control organizes tasks. Cloning a public repo showed me how easy it is to work locally and sync changes back to GitHub. Overall, this class gave me hands-on experience with Git workflows and project management.
 
 ---
 
